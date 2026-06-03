@@ -12,8 +12,8 @@
 | Việc | Kết quả |
 |------|---------|
 | Tách `Application` ra library (`API.Server`) | để test + exe dùng chung |
-| Test bằng `hspec` + `hspec-wai`, in-process | 6 test, không cần Warp |
-| `cabal test` | ✅ 6/6 pass |
+| Test bằng `hspec` + `hspec-wai`, in-process | 24 test (6 cơ bản + 18 edge), không cần Warp |
+| `cabal test` | ✅ 24/24 pass |
 | ormolu / hlint / cabal-fmt | ✅ sạch |
 
 **3 lỗi đã gặp & cách xử lý** (chi tiết ở mục 5):
@@ -133,7 +133,7 @@ get "/users/not-a-uuid" `shouldRespondWith` 400
 get "/nope"             `shouldRespondWith` 404
 ```
 
-### Bảng 6 test
+### Bảng test cơ bản (6)
 
 | describe | it | Khẳng định |
 |----------|----|-----------|
@@ -143,6 +143,8 @@ get "/nope"             `shouldRespondWith` 404
 | GET /users/:uid | UUID hợp lệ | 200 + stub profile |
 | GET /users/:uid | UUID sai | 400 |
 | Routing | path lạ | 404 |
+
+> Bộ test edge case (18 case nữa) ở [mục 6](#6-edge-cases). Tổng cộng **24 test**.
 
 ### Dependencies test-suite (trong `.cabal`)
 
@@ -278,7 +280,72 @@ Note: may require `{-# LANGUAGE ExplicitNamespaces #-}` adding to the top
 
 ---
 
-## 6. Checklist tái lập / mở rộng
+## 6. Edge cases
+
+> 18 case dưới đây bổ sung cho 6 test cơ bản. **Mỗi kỳ vọng đều được chạy thật
+> rồi mới chốt**, không đoán — chính chúng *tài liệu hoá* hành vi của Servant.
+
+### 6.1 — Content-Type của request
+
+| it | Status | Ghi chú |
+|----|--------|---------|
+| Thiếu `Content-Type` | **415** | Servant từ chối *trước khi* đọc body |
+| `Content-Type: text/plain` | **415** | không khớp content-type của `ReqBody '[JSON]` |
+| `application/json;charset=utf-8` | **200** | Servant chấp nhận có/không charset |
+
+### 6.2 — Body không hợp lệ
+
+| it | Status | Ghi chú |
+|----|--------|---------|
+| Body rỗng | 400 | aeson không parse được |
+| JSON sai cú pháp (`{not valid json`) | 400 | lỗi cú pháp |
+| Đúng cú pháp, sai kiểu (mảng `[1,2,3]`) | 400 | không phải object |
+| Thiếu field bắt buộc (`newUsername`) | 400 | aeson báo "key not found" |
+| Field bắt buộc sai kiểu (`newUserEmail` là số) | 400 | type mismatch |
+| **Có field thừa** (`extra`) | **200** | aeson Generic **bỏ qua** field lạ |
+
+### 6.3 — Field tuỳ chọn (`newUserHandle :: Maybe Handle`)
+
+| it | Status | Ghi chú |
+|----|--------|---------|
+| Có handle (không null) | 200 | — |
+| **Bỏ hẳn** field handle | **200** | `Maybe` vắng mặt ⇒ `Nothing` (không lỗi) |
+
+### 6.4 — Method không khớp path
+
+| it | Status | Ghi chú |
+|----|--------|---------|
+| `GET /register` (chỉ có POST) | **405** | path khớp, method sai |
+| `GET /login` (chỉ có POST) | **405** | — |
+| `POST /users/:uid` (chỉ có GET) | **405** | — |
+
+### 6.5 — `/login` body & Capture UserId
+
+| it | Status | Ghi chú |
+|----|--------|---------|
+| `/login` thiếu `loginPassword` | 400 | thiếu field bắt buộc |
+| UUID có hex chữ HOA | 200 | `FromHttpApiData`/UUID chấp nhận uppercase |
+| `/users/` thiếu segment | **404** | path **không khớp** (khác 400!) |
+| UUID quá ngắn (`123`) | 400 | parse `Capture` thất bại |
+
+### Phân định 3 mã lỗi hay nhầm
+
+Đây là giá trị chính của bộ edge case — ranh giới giữa các mã lỗi:
+
+| Mã | Khi nào | Ví dụ |
+|----|---------|-------|
+| **415** Unsupported Media Type | Content-Type sai/thiếu, **chưa** tới bước parse body | thiếu header, `text/plain` |
+| **400** Bad Request | Header OK nhưng **body JSON hỏng/sai kiểu**, hoặc **`Capture` parse thất bại** | body rỗng, UUID quá ngắn |
+| **404** Not Found vs **405** Method Not Allowed | **404**: path không tồn tại. **405**: path đúng nhưng **sai method** | `/nope` → 404; `GET /register` → 405; `/users/` → 404 |
+
+> Lưu ý tinh tế: `/users/` (thiếu segment) là **404** chứ không phải 400 — vì
+> không có path nào khớp `Capture "uid"` rỗng, nên Servant coi là "không tìm thấy
+> route", chưa tới bước parse UserId. Còn `/users/123` (có segment nhưng sai) mới
+> là **400** vì route khớp và `parseUrlPiece` thất bại.
+
+---
+
+## 7. Checklist tái lập / mở rộng
 
 ```bash
 # sau khi sửa code/test:
@@ -297,7 +364,7 @@ cabal-fmt --check mini-brig.cabal
 
 ---
 
-## 7. Liên kết
+## 8. Liên kết
 
 - [session-log.md](session-log.md) — nhật ký toàn bộ các session
 - [run-build-curl-threaded.md](run-build-curl-threaded.md) — chạy server + curl,

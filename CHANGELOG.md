@@ -13,9 +13,11 @@
 * Moved the WAI `Application` into the library as `API.Server` (exposing `app`)
   so both the executable and the test suite share it; `app/Main.hs` is now a thin
   wrapper that runs `app` with Warp.
-* Test suite (`hspec` + `hspec-wai`) covering all endpoints in-process: happy
-  paths for `/register`, `/login`, `/users/:uid`, plus 400 (bad body / invalid
-  UUID) and 404 (unknown path). Bodies matched semantically by decoding to an
-  aeson `Value` (key-order independent).
+* Test suite (`hspec` + `hspec-wai`) driving all endpoints in-process (24 cases):
+  happy paths for `/register`, `/login`, `/users/:uid` plus edge cases covering
+  415 (missing/wrong Content-Type), 400 (empty/malformed/wrong-type body, bad
+  Capture), 404 (unknown path / missing segment), 405 (wrong method), optional
+  `Maybe` fields, and ignored extra fields. Bodies matched semantically by
+  decoding to an aeson `Value` (key-order independent).
 * Learning docs under `docs/` (roadmap, debug guide, glossary, session log,
   serve/Capture explainer, run + curl guide, test-suite setup guide).
