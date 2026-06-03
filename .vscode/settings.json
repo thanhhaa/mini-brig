@@ -1,0 +1,39 @@
+{
+    // Number of spaces per indentation level for Haskell files
+    "editor.tabSize": 2,
+    // How the extension finds HLS: "PATH" = look in $PATH, "GHCup" = let GHCup manage it
+    "haskell.manageHLS": "PATH",
+    // Explicit path to HLS wrapper; the wrapper auto-selects the right HLS version for the active GHC
+    "haskell.serverExecutablePath": "haskell-language-server-wrapper",
+    // Formatter for .hs files; valid values: "ormolu" | "fourmolu" | "brittany" | "floskell" | "stylish-haskell" | "none"
+    "haskell.formattingProvider": "ormolu",
+    // Use the ormolu binary installed on the system instead of the version bundled inside HLS
+    "haskell.plugin.ormolu.config.external": true,
+    // Formatter for .cabal files; valid values: "cabal-gild" | "cabal-fmt" | "none"
+    // find . -name "*.cabal" -exec cabal-fmt --inplace {} \;
+    // cabal-fmt --inplace mini-brig.cabal
+    "haskell.cabalFormattingProvider": "cabal-fmt",
+    // Path to the cabal-fmt executable used by the cabal formatting plugin
+    "haskell.plugin.cabal-fmt.config.path": "cabal-fmt",
+    // Use the Haskell extension (HLS) as the formatter for .cabal files
+    "[cabal]": {
+        "editor.defaultFormatter": "haskell.haskell",
+        "editor.formatOnSave": true
+    },
+    // Automatically format the file on every save
+    "editor.formatOnSave": true,
+    // Run organize-imports code action on save (requires explicit trigger, not automatic)
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    // Tell VSCode which language mode to use for each file extension
+    "files.associations": {
+        "*.hs": "haskell",
+        "*.lhs": "literate-haskell",
+        "*.cabal": "cabal"
+    },
+    // Show a diff when an eval doctest result changes
+    "haskell.plugin.eval.config.diff": true,
+    // Capture and display exceptions thrown during eval doctest execution
+    "haskell.plugin.eval.config.exception": true
+}
