@@ -411,6 +411,7 @@ ghcid --command="cabal repl"
 | [haskell-debug-guide.md](haskell-debug-guide.md) | Debug.Trace, GHCi debugger, ghcid, VS Code workflow, bảng "khi nào dùng gì" |
 | [serve-capture-fromhttpapidata.md](serve-capture-fromhttpapidata.md) | Lỗi `serve`, vì sao `Capture` cần `FromHttpApiData`, ví dụ `cabal repl` |
 | [run-build-curl-threaded.md](run-build-curl-threaded.md) | Chạy project: format/lint/build/run/curl, bug `-threaded` của Warp, bẫy relink + `+RTS --info` |
+| [test-suite-setup.md](test-suite-setup.md) | Dựng test hspec + hspec-wai in-process; lỗi 415 / `Hspec.Wai.JSON` thiếu / thứ tự key JSON / pragma thừa |
 | [session-log.md](session-log.md) | File này — toàn bộ nội dung trao đổi |
 
 ---
@@ -470,6 +471,34 @@ ghcid --command="cabal repl"
   nhưng routing + JSON + parse UUID đều đúng.
 - Lưu ý: target `mini-brig` nhập nhằng giữa `lib:` và `exe:` → dùng
   `cabal run exe:mini-brig`.
+
+---
+
+## Phần 8 — Dựng test suite cho các endpoint (Phase 2)
+
+### Câu hỏi
+
+> Set up a test suite for the endpoints.
+
+### Kết quả → [test-suite-setup.md](test-suite-setup.md)
+
+---
+
+**Tóm tắt:**
+
+- Tách WAI `Application` ra library (`src/API/Server.hs`, export `app`) để cả
+  executable lẫn test dùng chung; `app/Main.hs` chỉ còn `run 8080 app`.
+- Test in-process bằng `hspec` + `hspec-wai` (gọi thẳng `Application`, không bind
+  cổng): 6 test cho `/register`, `/login`, `/users/:uid` + case 400/404 →
+  `cabal test` pass 6/6.
+- **Lỗi đã xử lý:**
+  - Servant trả **415** khi thiếu `Content-Type` → dùng `request` + header
+    `application/json` thay cho `post`.
+  - `Test.Hspec.Wai.JSON` (quasiquoter `[json|…|]`) **không expose** ở
+    hspec-wai 0.12.0 → tự viết matcher decode body thành aeson `Value` rồi so
+    sánh (kèm lợi ích **không phụ thuộc thứ tự key**).
+  - hlint báo `TypeOperators` thừa → đổi sang `ExplicitNamespaces`.
+- Deps test thêm: `aeson, bytestring, hspec, hspec-wai, http-types, text`.
 
 ---
 
