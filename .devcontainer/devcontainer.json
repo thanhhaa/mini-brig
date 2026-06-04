@@ -1,17 +1,15 @@
 {
   "name": "Haskell - mini-brig",
-  // base ^>=4.18.3.0 trong file .cabal -> GHC 9.6.7 (bản 9.6 duy nhất ship base 4.18.3.0).
-  // Image "haskell" chính thức: đã có sẵn ghc 9.6.7, cabal-install, ghcup.
-  "image": "haskell:9.6.7",
-  // app/Main.hs chạy Warp trên cổng 8080. Codespaces tự forward ra trình duyệt.
+  // Đổi từ "haskell:9.6.7" (Docker Hub, đang timeout) sang base image của Microsoft.
+  // MCR được Codespaces kéo nhanh và KHÔNG bị giới hạn pull ẩn danh như Docker Hub.
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "forwardPorts": [
     8080
   ],
-  // Chạy MỘT LẦN sau khi tạo container: cài HLS + build sẵn dependency.
+  // Cài toolchain Haskell + build deps. Tách ra .sh để comment cho rõ.
   "postCreateCommand": "bash .devcontainer/postCreate.sh",
   "customizations": {
     "vscode": {
-      // Extension Haskell chính thức -> tự dùng HLS đã cài qua ghcup.
       "extensions": [
         "haskell.haskell"
       ]
