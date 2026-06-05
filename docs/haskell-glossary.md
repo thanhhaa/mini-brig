@@ -113,6 +113,9 @@ Ba tầng xếp chồng: `value : type : kind`. Ví dụ `5 : Int : Type`.
 | **Stanza** | Một **khối khai báo có tên** trong file `.cabal`. Mỗi target là một stanza: `library`, `executable mini-brig`, `test-suite mini-brig-test`, và `common warnings`. Trong stanza đặt các field như `build-depends`, `ghc-options`, `hs-source-dirs`. |
 | **`common` stanza** | Stanza khai báo cấu hình dùng chung; các stanza khác kéo vào bằng `import:`. Ví dụ `common warnings` đặt `ghc-options: -Wall -Werror`, rồi mỗi target `import: warnings`. |
 | **Component / target** | Một thứ build ra được: thư viện (lib), file chạy (exe), bộ test. Một package có nhiều component. Tên đầy đủ: `lib:mini-brig`, `exe:mini-brig`, `test:mini-brig-test` (dùng khi tên bị nhập nhằng). |
+| **`main-is`** | Field khai báo file chứa module **entry point** (`main`) cho `executable`/`test-suite`. Ví dụ `main-is: Main.hs`. |
+| **`other-modules`** | Field liệt kê **mọi module khác** (không phải `Main`) thuộc về target và cần được biên dịch. ⚠️ `import` trong code **không** tự bảo Cabal build module đó — Cabal **chỉ** build những module nằm trong `main-is` + `other-modules`. Thiếu ⇒ lỗi *"Could not find module …"* và file bị **bỏ sót khi `cabal sdist`**. Đây là module **nội bộ** (không export ra ngoài package). |
+| **`exposed-modules`** | Chỉ có ở stanza `library`: module **public** mà package/target khác import được (vd `API.Server`). Khác `other-modules` (nội bộ, không export). |
 | **Compile** | Dịch **từng** file `.hs` → file đối tượng `.o` (object file). Là bước theo từng module. |
 | **Object file (`.o`)** | Mã máy đã dịch của một module, **chưa** ghép thành chương trình hoàn chỉnh. |
 | **Link / Linking** | Bước **ghép** tất cả `.o` + các thư viện (kể cả RTS) thành một **binary** chạy được. Khác hẳn bước compile. |

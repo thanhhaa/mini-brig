@@ -19,9 +19,12 @@ import Test.Hspec.Wai
     with,
   )
 import Test.Hspec.Wai.Matcher (MatchBody (MatchBody))
+import qualified TypesJSONSpec
 
 main :: IO ()
-main = hspec spec
+main = hspec $ do
+  spec
+  TypesJSONSpec.spec
 
 spec :: Spec
 spec = with (pure app) $ do
