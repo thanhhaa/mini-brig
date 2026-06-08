@@ -1,0 +1,7 @@
+# Build artifacts & local-only dirs — keep the build context small and clean.
+dist-newstyle
+.git
+.claude
+.vscode
+.devcontainer
+docs
