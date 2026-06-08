@@ -249,8 +249,9 @@ curl -X POST localhost:8080/register -H 'Content-Type: application/json' \
 
 ## 8. Liên kết
 
-- [session-log.md](session-log.md) — nhật ký toàn bộ các session
-- [serve-capture-fromhttpapidata.md](serve-capture-fromhttpapidata.md) — vì sao
-  `Capture` cần `FromHttpApiData`, cách parse UUID → UserId
-- [mini-brig-roadmap.md](mini-brig-roadmap.md) — kế hoạch phát triển mini-brig
-- [haskell-debug-guide.md](haskell-debug-guide.md) — công cụ debug Haskell
+- [[session-log]] — nhật ký toàn bộ các session
+- [[serve-capture-fromhttpapidata]] — vì sao `Capture` cần `FromHttpApiData`, cách parse UUID → UserId
+- [[mini-brig-roadmap]] — kế hoạch phát triển mini-brig
+- [[haskell-debug-guide]] — công cụ debug Haskell
+- [[cabal-rts-glossary]] — thuật ngữ `-threaded`, RTS way, incremental build
+- [[http-web-glossary]] — HTTP status codes, methods, Warp, WAI

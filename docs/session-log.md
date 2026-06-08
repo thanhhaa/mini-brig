@@ -16,7 +16,7 @@
 > 4. Trace toàn bộ luồng xử lý một API liên quan đến user (tạo user hoặc login).
 > Viết report dưới dạng file .md
 
-### Kết quả → [brig-deep-dive.md](brig-deep-dive.md)
+### Kết quả → [[brig-deep-dive]]
 
 ---
 
@@ -221,7 +221,7 @@ Handler r a
 
 > Nếu muốn viết lại service brig để học hiểu và thực hành code Haskell, xác thực, kết nối db, gọi service khác thì chúng ta nên bắt đầu như thế nào?
 
-### Kết quả → [mini-brig-roadmap.md](mini-brig-roadmap.md)
+### Kết quả → [[mini-brig-roadmap]]
 
 ---
 
@@ -336,7 +336,7 @@ cabal install ormolu --overwrite-policy=always
 
 Lý do: Không cần cài thêm, hoạt động ngay, đây là cách Haskell devs thực tế dùng nhiều nhất.
 
-### Kết quả → [haskell-debug-guide.md](haskell-debug-guide.md)
+### Kết quả → [[haskell-debug-guide]]
 
 ---
 
@@ -406,13 +406,13 @@ ghcid --command="cabal repl"
 
 | File tạo ra | Nội dung |
 |-------------|---------|
-| [brig-deep-dive.md](brig-deep-dive.md) | Phân tích đầy đủ service brig (4 phần) |
-| [mini-brig-roadmap.md](mini-brig-roadmap.md) | Kế hoạch học qua 7 phase, tech stack, cấu trúc project, code ví dụ |
-| [haskell-debug-guide.md](haskell-debug-guide.md) | Debug.Trace, GHCi debugger, ghcid, VS Code workflow, bảng "khi nào dùng gì" |
-| [serve-capture-fromhttpapidata.md](serve-capture-fromhttpapidata.md) | Lỗi `serve`, vì sao `Capture` cần `FromHttpApiData`, ví dụ `cabal repl` |
-| [run-build-curl-threaded.md](run-build-curl-threaded.md) | Chạy project: format/lint/build/run/curl, bug `-threaded` của Warp, bẫy relink + `+RTS --info` |
-| [test-suite-setup.md](test-suite-setup.md) | Dựng test hspec + hspec-wai in-process; lỗi 415 / `Hspec.Wai.JSON` thiếu / thứ tự key JSON / pragma thừa |
-| [session-log.md](session-log.md) | File này — toàn bộ nội dung trao đổi |
+| [[brig-deep-dive]] | Phân tích đầy đủ service brig (4 phần) |
+| [[mini-brig-roadmap]] | Kế hoạch học qua 7 phase, tech stack, cấu trúc project, code ví dụ |
+| [[haskell-debug-guide]] | Debug.Trace, GHCi debugger, ghcid, VS Code workflow, bảng "khi nào dùng gì" |
+| [[serve-capture-fromhttpapidata]] | Lỗi `serve`, vì sao `Capture` cần `FromHttpApiData`, ví dụ `cabal repl` |
+| [[run-build-curl-threaded]] | Chạy project: format/lint/build/run/curl, bug `-threaded` của Warp, bẫy relink + `+RTS --info` |
+| [[test-suite-setup]] | Dựng test hspec + hspec-wai in-process; lỗi 415 / `Hspec.Wai.JSON` thiếu / thứ tự key JSON / pragma thừa |
+| [[session-log]] | File này — toàn bộ nội dung trao đổi |
 
 ---
 
@@ -424,7 +424,7 @@ ghcid --command="cabal repl"
 > đòi `FromHttpApiData`; đưa thêm ví dụ dùng `Capture` và `FromHttpApiData` ở
 > `cabal repl`.
 
-### Kết quả → [serve-capture-fromhttpapidata.md](serve-capture-fromhttpapidata.md)
+### Kết quả → [[serve-capture-fromhttpapidata]]
 
 ---
 
@@ -450,7 +450,7 @@ ghcid --command="cabal repl"
 > Hãy chạy lại project này, kiểm tra format, lint,… và build run project thành
 > công, gọi curl thử các hàm.
 
-### Kết quả → [run-build-curl-threaded.md](run-build-curl-threaded.md)
+### Kết quả → [[run-build-curl-threaded]]
 
 ---
 
@@ -480,7 +480,7 @@ ghcid --command="cabal repl"
 
 > Set up a test suite for the endpoints.
 
-### Kết quả → [test-suite-setup.md](test-suite-setup.md)
+### Kết quả → [[test-suite-setup]]
 
 ---
 
@@ -506,7 +506,7 @@ ghcid --command="cabal repl"
 
 1. **Brig** là service trung tâm của Wire — quản lý toàn bộ người dùng, dùng Servant + Polysemy + Cassandra/Postgres.
 
-2. **Để học Haskell** qua brig: đi từng phase (ReaderT trước Polysemy, `postgresql-simple` trước `hasql`). File [mini-brig-roadmap.md](mini-brig-roadmap.md) là kế hoạch cụ thể.
+2. **Để học Haskell** qua brig: đi từng phase (ReaderT trước Polysemy, `postgresql-simple` trước `hasql`). File [[mini-brig-roadmap]] là kế hoạch cụ thể.
 
 3. **Môi trường cần fix:** cài GHC 9.6.6 + HLS 2.9.0.1 + ormolu. Wire-server dùng Nix + GHC 9.10 nhưng cho mini-brig thì 9.6 LTS là đủ.
 

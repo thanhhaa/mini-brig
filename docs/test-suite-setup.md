@@ -366,8 +366,7 @@ cabal-fmt --check mini-brig.cabal
 
 ## 8. Liên kết
 
-- [session-log.md](session-log.md) — nhật ký toàn bộ các session
-- [run-build-curl-threaded.md](run-build-curl-threaded.md) — chạy server + curl,
-  bug `-threaded`
-- [serve-capture-fromhttpapidata.md](serve-capture-fromhttpapidata.md) — vì sao
-  `Capture` cần `FromHttpApiData` (liên quan test "UUID sai → 400")
+- [[session-log]] — nhật ký toàn bộ các session
+- [[run-build-curl-threaded]] — chạy server + curl, bug `-threaded`
+- [[serve-capture-fromhttpapidata]] — vì sao `Capture` cần `FromHttpApiData` (liên quan test "UUID sai → 400")
+- [[haskell-glossary]] — deriving strategies, JSON serialization với Aeson

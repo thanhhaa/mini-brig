@@ -238,3 +238,12 @@ Kết quả thật:
 > **Ghi chú môi trường:** demo gọi server bằng `curl` qua loopback có thể bị một số
 > sandbox chặn (reset kết nối). Cách test in-process ở mục 4B không cần socket nên
 > luôn chạy được, và cũng là cách test Servant được khuyến nghị.
+
+---
+
+## Liên kết
+
+- [[haskell-glossary]] — typeclass, deriving strategies, `FromHttpApiData` và `FromJSON`
+- [[test-suite-setup]] — test edge case 400 vs 404 vs 405 với `Capture`
+- [[run-build-curl-threaded]] — curl thực tế với UUID hợp lệ/không hợp lệ
+- [[http-web-glossary]] — HTTP status codes, methods, Warp, WAI

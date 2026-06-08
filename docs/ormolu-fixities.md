@@ -153,3 +153,10 @@ Khi chỉnh fixity, sửa **cả hai**: dòng khai báo trong `.ormolu` và mụ
   getUser uid `bindResponse` \resp -> do
     statusCode resp === 200
   ```
+
+---
+
+## Liên kết
+
+- [[run-build-curl-threaded]] — quy ước chạy ormolu + cabal-fmt trong project
+- [[haskell-glossary]] — type operators (`:<|>`, `:>`), TypeOperators pragma

@@ -314,3 +314,11 @@ Tạo `.vscode/launch.json`:
 ```
 
 Có đầy đủ: breakpoints, step-in/over/out, inspect variables, conditional breakpoints.
+
+---
+
+## Liên kết
+
+- [[ghci-repl-commands]] — command reference GHCi: `:type`, `:kind!`, `:info`
+- [[run-build-curl-threaded]] — build, chạy server và smoke test curl
+- [[test-suite-setup]] — test suite hspec + hspec-wai in-process
