@@ -357,3 +357,12 @@ cabal init --non-interactive --lib --exe
 3. `src/API/Routes.hs` — khai báo routes
 4. `src/App.hs` — `Env` và `AppM`
 5. Tiếp tục từng phase...
+
+---
+
+## Liên kết
+
+- [[web-http-deep-dive-roadmap]] — roadmap song song, học **khái niệm web/HTTP**
+  theo chiều sâu (TCP, TLS, JWT, proxy) gắn vào từng phase ở đây
+- [[mini-brig-learning-path]] — bản tóm tắt 7 phase
+- [[http-web-glossary]] — từ điển tra cứu HTTP/status code
